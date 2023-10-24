@@ -18,9 +18,9 @@ To output, we use `console` functions:
 
 Here is the shortest sequence of winning moves:
 
-1. `east`
+1. `west`
 2. `take key`
-3. `west`
+3. `east`
 4. `north`
 5. `open window`
 6. `east`

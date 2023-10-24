@@ -16,7 +16,7 @@ export function play(): void {
   console.info("Hello, " + playerName + ".");
 
   console.info("You are in a building. Your goal is to exit this building.");
-  console.info("You are in an empty room. There are doors on the north and east walls of this room.");
+  console.info("You are in an empty room. There are doors on the north and west walls of this room.");
 
   let currentRoom: Room = "A";
   let hasKey: boolean = false;
@@ -34,13 +34,13 @@ export function play(): void {
     switch (currentRoom) {
       case "A":
         switch (command) {
-          case "east":
+          case "west":
             currentRoom = "B";
-            console.info("You go through the east door. You are in a room with a table.");
+            console.info("You go through the west door. You are in a room with a table.");
             if (!hasKey) {
               console.info("On the table there is a key.");
             }
-            console.info("There is a door on the west wall of this room.");
+            console.info("There is a door on the east wall of this room.");
             break;
           case "north":
             if (hasKey) {
@@ -59,9 +59,9 @@ export function play(): void {
 
       case "B":
         switch (command) {
-          case "west":
+          case "east":
             currentRoom = "A";
-            console.info("You are in an empty room. There are doors on the north and east walls of this room.");
+            console.info("You are in an empty room. There are doors on the north and west walls of this room.");
             break;
           case "take key":
             if (hasKey) {
@@ -81,7 +81,7 @@ export function play(): void {
         switch (command) {
           case "south":
             currentRoom = "A";
-            console.info("You are in an empty room. There are doors on the north and east walls of this room.");
+            console.info("You are in an empty room. There are doors on the north and west walls of this room.");
             break;
           case "east":
             if (windowOpen) {
