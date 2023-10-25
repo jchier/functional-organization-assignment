@@ -29,7 +29,7 @@ module.exports = {
         "no-caller": ["error"],
         "no-case-declarations": ["warn"],
         "no-continue": ["error"],
-        "no-duplicate-imports": "off", "@typescript-eslint/no-duplicate-imports": ["warn"],
+        "no-duplicate-imports": "warn",
         "no-eval": ["error"],
         "no-extra-label": ["error"],
         "no-implicit-coercion": ["warn"],
