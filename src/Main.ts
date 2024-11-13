@@ -22,6 +22,79 @@ function describeRoom() {
   }
 }
 
+function doCommand(command: string) {
+  switch (currentRoom) {
+    case "A":
+      switch (command) {
+        case "west":
+          currentRoom = "B";
+          describeRoom();
+          break;
+        case "north":
+          if (hasKey) {
+            currentRoom = "C";
+            console.info("You unlock the north door with the key and go through the door.");
+            describeRoom();
+            break;
+          } else {
+            console.error("You try to open the north door, but it is locked.");
+          }
+        default:
+          console.error("Unrecognized command.");
+          break;
+      }
+      break;
+
+    case "B":
+      switch (command) {
+        case "east":
+          currentRoom = "A";
+          describeRoom();
+          break;
+        case "take key":
+          if (hasKey) {
+            console.error("You already have the key.");
+          } else {
+            console.info("You take the key from the table.");
+            hasKey = true;
+          }
+          break;
+        default:
+          console.error("Unrecognized command.");
+          break;
+      }
+      break;
+
+    case "C":
+      switch (command) {
+        case "south":
+          currentRoom = "A";
+          describeRoom();
+          break;
+        case "east":
+          if (windowOpen) {
+            currentRoom = "Exit";
+            console.info("You step out from the open window.");
+          } else {
+            console.error("The window is closed.");
+          }
+          break;
+        case "open window":
+          if (windowOpen) {
+            console.error("The window is already open.");
+          } else {
+            console.info("You open the window.");
+            windowOpen = true;
+          }
+          break;
+        default:
+          console.error("Unrecognized command.");
+          break;
+      }
+      break;
+  }
+}
+
 export function play(): void {
   console.info("Welcome to the text adventure! Open your browser's developer console to play.");
 
@@ -47,78 +120,10 @@ export function play(): void {
     }
     console.log(command);
 
-    switch (currentRoom) {
-      case "A":
-        switch (command) {
-          case "west":
-            currentRoom = "B";
-            describeRoom();
-            break;
-          case "north":
-            if (hasKey) {
-              currentRoom = "C";
-              console.info("You unlock the north door with the key and go through the door.");
-              describeRoom();
-              break;
-            } else {
-              console.error("You try to open the north door, but it is locked.");
-            }
-          default:
-            console.error("Unrecognized command.");
-            break;
-        }
-        break;
-
-      case "B":
-        switch (command) {
-          case "east":
-            currentRoom = "A";
-            describeRoom();
-            break;
-          case "take key":
-            if (hasKey) {
-              console.error("You already have the key.");
-            } else {
-              console.info("You take the key from the table.");
-              hasKey = true;
-            }
-            break;
-          default:
-            console.error("Unrecognized command.");
-            break;
-        }
-        break;
-        
-      case "C":
-        switch (command) {
-          case "south":
-            currentRoom = "A";
-            describeRoom();
-            break;
-          case "east":
-            if (windowOpen) {
-              currentRoom = "Exit";
-              console.info("You step out from the open window.");
-            } else {
-              console.error("The window is closed.");
-            }
-            break;
-          case "open window":
-            if (windowOpen) {
-              console.error("The window is already open.");
-            } else {
-              console.info("You open the window.");
-              windowOpen = true;
-            }
-            break;
-          default:
-            console.error("Unrecognized command.");
-            break;
-        }
-        break;
-    }
+    doCommand(command);
   }
 
   console.info("You have exited the building. You win!");
   console.info("Congratulations, " + playerName + "!");
+
 }
