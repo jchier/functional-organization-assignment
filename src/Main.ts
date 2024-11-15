@@ -4,6 +4,8 @@ type RoomName = "A" | "B" | "C" | "Exit";
 
 type Direction = "north" | "south" | "east" | "west";
 
+type DoorState = "locked" | "unlocked" | "open";
+
 type Grid = Room[][];
 
 function promptInput(promptMessage: string): string {
@@ -17,36 +19,43 @@ function promptInput(promptMessage: string): string {
   return input;
 }
 
-class Room {
-  handleCommand(command: string): Direction | null {
+abstract class Room {
+  let westDoor: DoorState;
+  let eastdoor: DoorState;
+
+  abstract handleCommand(command: string): void;
+}
+
+class TimeRoom extends Room {
+  override handleCommand(command: string): void {
     switch (command) {
-      case "north":
-      case "south":
-      case "east":
-      case "west":
-        return command;
-      default:
-        console.error("Invalid command.");
-        return null;
+      case "time":
+        console.log(new Date().toString());
+        break;
     }
   }
 }
 
-class TimeRoom extends Room {
-  override handleCommand(command: string): Direction | null {
+class SwitchRoom extends Room {
+  private switch: boolean = false;
+  override handleCommand(command: string): void {
     switch (command) {
-      case "time":
-        console.log(new Date().toString());
-        return null;
-      default:
-        return super.handleCommand(command);
+      case "flip sitch":
+        this.switch = !this.switch;
+        break;
+      case "look":
+        if (this.switch)
+          console.log("The lights are on.");
+        else
+          console.log("The lights are off.");
+        break;
     }
   }
 }
 
 const grid: Grid = [
-  [new TimeRoom(), new Room()],
-  [new Room(), new Room()],
+  [new TimeRoom(), new SwitchRoom()],
+  [new SwitchRoom(), new TimeRoom()],
 ];
 
 function play() {
@@ -56,8 +65,7 @@ function play() {
   while (true) {
     const room = grid[row][column];
     const input = promptInput("Enter a command.");
-    const commandResult = room.handleCommand(input);
-    switch (commandResult) {
+    switch (input) {
       case "east":
         column++;
         break;
@@ -70,7 +78,7 @@ function play() {
       case "south":
         row++;
         break;
-      case null:
+      default: room.handleCommand(input);
     }
   }
 }
