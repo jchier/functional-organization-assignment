@@ -22,13 +22,8 @@ function promptInput(promptMessage: string): string {
 abstract class Room {
   
   abstract handleCommand(command: string): void;
-  westDoor: DoorState;
-  eastdoor: DoorState;
-  constructor(WestDoor: DoorState, EastDoor: DoorState){
-    this.westDoor = WestDoor;
-    this.eastdoor = EastDoor;
+  constructor(public westDoor: DoorState = "unlocked", public eastDoor: DoorState = "unlocked"){};
 
-  }
 }
 
 class TimeRoom extends Room {
@@ -59,7 +54,7 @@ class SwitchRoom extends Room {
 }
 
 const grid: Grid = [
-  [new TimeRoom("unlocked","unlocked"), new SwitchRoom("unlocked","unlocked")],
+  [new TimeRoom(), new SwitchRoom("unlocked","unlocked")],
   [new SwitchRoom("unlocked","unlocked"), new TimeRoom("unlocked","unlocked")],
 ];
 
