@@ -20,10 +20,15 @@ function promptInput(promptMessage: string): string {
 }
 
 abstract class Room {
-  let westDoor: DoorState;
-  let eastdoor: DoorState;
-
+  
   abstract handleCommand(command: string): void;
+  westDoor: DoorState;
+  eastdoor: DoorState;
+  constructor(WestDoor: DoorState, EastDoor: DoorState){
+    this.westDoor = WestDoor;
+    this.eastdoor = EastDoor;
+
+  }
 }
 
 class TimeRoom extends Room {
@@ -54,8 +59,8 @@ class SwitchRoom extends Room {
 }
 
 const grid: Grid = [
-  [new TimeRoom(), new SwitchRoom()],
-  [new SwitchRoom(), new TimeRoom()],
+  [new TimeRoom("unlocked","unlocked"), new SwitchRoom("unlocked","unlocked")],
+  [new SwitchRoom("unlocked","unlocked"), new TimeRoom("unlocked","unlocked")],
 ];
 
 function play() {
@@ -81,6 +86,10 @@ function play() {
       default: room.handleCommand(input);
     }
   }
+}
+
+function handleCommand(command: any, string: any) {
+  throw new Error("Function not implemented.");
 }
 //provided by game designer
 
