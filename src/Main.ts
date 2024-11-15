@@ -45,7 +45,7 @@ class SwitchRoom extends Room {
   private switch: boolean = false;
   override handleCommand(command: string): void {
     switch (command) {
-      case "flip sitch":
+      case "flip switch":
         this.switch = !this.switch;
         break;
       case "look":
@@ -63,7 +63,7 @@ const grid: Grid = [
   [new SwitchRoom("unlocked","unlocked"), new TimeRoom("unlocked","unlocked")],
 ];
 
-function play() {
+export function play(): void {
   let row: number = 0;
   let column: number = 0;
 
